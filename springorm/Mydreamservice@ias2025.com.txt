@@ -1,0 +1,79 @@
+Mydreamservice@ias.com
+
+ORM object relational mapping.
+Spring + ORM frameworks(Hibernate,Toplink ,iBATIS)
+ADV:
+-> less coding, 
+-> east to test ,
+-> better exception handling ,
+-> interated transaction management;
+
+Here we need to make the table explicity and mapp it with database using ORM , so ORM now will return the object.
+
+To work with Spring ORM , we need HibernateTemplate object.
+
+The Structre : refer Video 1 : code with durgesh diagram .
+
+The Strcuture says 
+1.Make Product Dao class(data access object ) , which will  contain the Object of HibernateTemplate
+2.But HibernateTemplate depends on SessionFactory interface which further depend child class LocakSessionFactoryBean .
+3.LocalSessionFactoryBean need 3 things 
+     a). DataSource (url, username)
+     b)Hibernate Properties
+     c).AnnotatedClass (eg Student )
+
+
+
+ // Instructions  to work with ORM  by SHIVAM
+
+A). Make a new Package : com.spring.orm ->        app.class   and config.xml 
+     
+     Make subpackages for Dao   - StudentDao.java
+     Make subpackage for Entites  - Student.java
+
+B). Make ready the Student.java class 
+   
+    -> Here we are using @Entity,@Table(name of table), @Id ,@Column(name="student_id") 
+   to make our own table.
+
+   -> Take necessary getters, setters , constructor.
+
+C). Now we have Entity (StudentDao) class , we use it to add this table to database .    
+   
+   but insetion is done by obj of hibernateTemplate , so delclare it as data member with getters, setters , contrcutors etc
+
+D). Now we need to tell the spring continer to make objects of respective classes. by making beans in .xml file.
+
+  1. Make bean of StudentDao class and in property take reference of hibernateTemplate 
+  2. Declare hibernateTemplate bean which takes reference of sessionFactory interface 
+  3. Declare bean of childclass of sessionFactory : LocalSessionFactoyBean 
+  4.LocalSessionFactoyBean is declared as bean with 3 properties 
+        a) dataSource -> Need to declared as bean 
+        b)hibernateProperties  -> dilect ,show_sql,hbm2ddl etc
+        c)annotatedClasses    -> entites eg StudentDao.java 
+  
+   5.Declare bean of dataSource and set name of class :  shortcut (press ctrl + shift+ T) search DriverManagerDataSource open it , and copy the interface.Classname correctly.
+   
+   Maitain the required connection in dataSource(driverClassName, url, username, password)
+
+
+E). Next Step is use this in app.java
+   Delare the AppliacationContext = new ClassPathXml...
+   and get  the required Bean()
+
+   Now perform insert operation on Student obj .
+   Error comes access denied to write
+
+F). Using the @Transactional , apply the namespace : copy and replace p:schema using tx , also last two lines of contxt are copied and tx is put in place of context.
+
+   Also  enalbe the transational by using 
+    <tx : annotation-driver /> in xml file
+
+
+G).    Perform CRUD operations
+     C -> create
+     R ->read (select queries)
+     U ->update
+     D ->Delete
+
+     
