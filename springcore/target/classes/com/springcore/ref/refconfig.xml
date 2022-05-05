@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:p="http://www.springframework.org/schema/p"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd">
+
+<!-- A class is dep on B so B must be defined here first then others -->
+
+<bean class="com.springcore.ref.B" name="bref" >
+<property name="y" value="90"/>
+</bean>
+
+<bean class="com.springcore.ref.A" name="aref" >
+<property name="x" value="50"/>
+<!-- Here Inserting the reference of B class obj ie  'ob'  
+It can be done by following 3 ways. 
+1.-->
+<property name="ob">
+   <ref bean="bref"  />
+</property>
+
+
+<!--2. By using ref as attribute  : this seems easy to specify ref="" in attributes form
+<property name ="ob"  ref="bref"></property>
+-->
+<!--3. By using p schema
+<bean class="com.springcore.ref.A" name="aref" p:x="50"  p:ob-ref="bref"/>
+-->
+
+
+</bean>
+
+</beans>

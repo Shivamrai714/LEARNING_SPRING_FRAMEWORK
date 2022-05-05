@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:p="http://www.springframework.org/schema/p"
+xmlns:util="http://www.springframework.org/schema/util"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/util
+http://www.springframework.org/schema/util/spring-util.xsd
+">
+
+<context:component-scan base-package="com.springcore.streotype" />
+
+<!-- We have used the above tag context component 
+And Placed the @Component to create the obj of class.
+also used @Value to assign value;
+-->
+
+<!--To use the  (Collections )List using annotaions  just make the util schema , of above namespace and copying p schema ,and last to lines where conext is replaced with util.-->
+
+<!-- Make a standalone coll  here and use annotaiontion @Value(#{temp}) in .java file -->
+<util:list  list-class="java.util.Vector" id="temp" >
+<value>Raisen</value>
+<value>Bhopal</value>
+<value>Bina</value>
+<value>Zebrra</value>
+</util:list  >
+
+
+<!-- Used the scope to create obj differently : by defaout it is Singleton (1 obj given)-->
+<bean  class="com.springcore.streotype.Teacher"  name="teacher"
+scope="prototype" />
+
+
+</beans>

@@ -1,0 +1,157 @@
+         Working Conditions for Spring core : Practical Learn from Code with Durgesh Youtube lecture series 
+
+
+A).Simple setter injection by Spring-Container / ioc  of different primitive datatypes
+B).injections of Collections type
+C).injection of reference type
+D).Constructor Injection -  not using propert tags /setter to inject , but using argument-args to inject value
+E).Ambiguity problem: by default String type constructor is matched , but if not present then top most cnstr will run. Not implemeted here refer video only. So put type ="int" to make match with int cnstr not the top cnstr . ( extra : More over we can change the order of values by given index="")
+F).LifeCycle: phase configure init and destroy method using xml file.
+G).Studied life cycle mode to implement init and destroy function
+
+     M1. Used them in XML file and and specify init, destroy in bean tag 
+     M2.Used interface in class to override their destroy method , aslo change the ApplicationContext class .
+     M3. Using annotations@Post object creation , @ predestoy
+         Give error in laptop
+         1.Need to include depenncy  in pom file , of these from online because java 14 not have this @post...
+          2.Need to enble method by tag of application context config.
+     Note : to run the destroy method in any mode need to attach the generate -hook method. 
+
+ H).  Autowiring : spring container will pass the ref of obj in anoother class without explictily mentioning in ref="" inb bean tag.
+               Can be done 1.By autowire =""  in bean tag : a) byName b)byType c)constructor
+               Can be done 2. By autowire annotaion. (next video)
+ 
+ I). METHOD 2 : USING annotations for autowiring. No need to pass the autowire attribute in bean tag 
+             Just use @Autowire 1 time at any of these pos. ( before property , before setter method, before constructor  )
+            Also in xml. file enable all the annotaions using 
+            <context:annotation-config />
+              
+ J). @Qualifier useful when different beans class are present, and and we want to do autowiring of object using the @Autowired , then we
+     can also mention the @Qualifier("name") , so it will call reference of desired object.         
+ 
+ K). StandAlone : Means the set , maps ,  we use inside property  tags are limited to scope, to use them  globally they must be declared outside of the beans .
+     So we can use  them multiple times  , and we can also explicity choose specifc class from list eg. ArrayList, Vector etc
+     :
+     To use this effectively , we need to take util namespace , sp just copy p:schema and rename with util,
+     Similarly with last two line of context and copy and rename with context with util.
+     
+     Now use <util:list : list-class="java.util.LinkedList" id ="mybestfriends">
+     <value>AMan</values>         //can provide multiples .
+     <value>AMan</values>         //can provide multiples .
+     <value>AMan</values>         //can provide multiples .
+     </util:list>
+  
+     Now we can use this list inside the property tags using their respective "" id "":
+     <property name="friends"   ref="mybestfriends"  >       // directly taken reference from standalone list.
+        
+
+
+
+ M). STEREOTYPE ANNOTATIONS : 
+                             It is Alternative of creating a obj using the bean tag. 
+            			   To create a obj of class we are using a bean tag in xml file to replace this method
+                            of declarations , we use annotaions (ie @Component ,@Value etc )
+            
+   @Component : 
+             	to be place before class declaration (at run time create the obj)
+            	TO use this annotaion , we need to specify the package in context: component in xml file
+            	<context:component-scan base-package="com.springcore.streotype" />
+            	To use the name while getBean("use Camel Case of ClassNAme") Or explicitly pass the name in @Component("obj");
+            
+            Also we can provide the values using the @Value 
+                            
+ 
+ M).  @Value 
+           To use @Value tag to pass the value of variable or primitives , but to pass the value of Collecitons type 
+       		MAke a standalone util list  in .xml file , then provide the id="temp" : to  use use spring expression lang. symbol
+       			@Value("#{temp}")  to provide the values to class var as listed in standalone list declared in xml file. 
+ 
+ 
+ N).BEAN SCOPE :  When u ask spring container to make a obj it can be done in follow types
+               1.Singleton="same obj is given every time we create a obj , ie hash code is same " ,
+                 2.prototype="different obj is created everytime , ie diff hashcode of obj." ,
+                  3.request ,
+                   4.session ,
+                    5.globalsession
+ 
+                To show scope/ obj creation 
+                1.In xml file : include scope attribute
+                       <bean class="  " name="  "  scope =" " />
+                2.In annotaion : use @Scope  before class declaration and below @Component
+                              
+ O). Spring Expression Language (SPEL)
+             It is used to pass values to properties using @Value ( " #{ 22+55 } " )
+				private int x;
+			It is placed before  the variable to whoom values is to be assigned. 
+
+			To call the static  methods use this format 
+			@Value  (#{ T  (java.lang.Math ).sqrt(25)  } )
+ 			private double z;
+
+			To call the static variables 
+			@ Value ( " # { T(java.lang.Math).E  } "  )
+            private int r;
+
+            To call objects  
+            @Value (" # { java.lang. String ( 'Shivam rai '  } ") 
+
+            To insert Boolean Val
+            @ Value( " #{ 8>5 } " ) 
+             private  boolean isactive;
+ 
+      
+      // Removing the XML FILE COMPLETELY FROM NEXT VIDEOS.
+ 
+ 
+* P). JavaConfig package:        Error coming while practical
+               
+   Method 1: already we are doing using bean tags. in .xml files
+           
+                
+   Method 2:         
+               Remove the XML file Working fully and use the javafile which handles all operations
+             
+             Take the @Component("firststudent")  annotation before the  class defination Student
+                              
+         1. Make a new JavaConfig.java file and write 
+          @Configuration  before the class name; and also pass the package in below annotaion
+          @ComponentScan(basePackages="com.springcore.javaconfig")    
+ 
+         2.Next Thing to use the annotaion in Demo/Test/Driver class , as no use of xml file now
+            so use 
+           Application context = new AnnotaionConfigApplicationContext(JavaConfig.class);
+           
+       
+       
+ **********Another 
+ 
+ MEthod 3:  USING @Bean
+          
+           Remove the @Component from Studnent Class  and @ComponentScan from JavaConfig.java 
+ 
+                          
+             // new method to configure bean = @Bean to be used in JAvaConfig.java file , and 
+                          creating and return a object from here . 
+             // And this same name of method will be name for context.getBean("",); in Driver/Demo class.             
+          
+           
+           
+           // Configration of Bean can be done three ways :
+              
+              1 bean tag in .xml file
+              2.@Component using in class
+              3.@Bean
+             
+            TODO for 3 method 
+     Making a class-return  type method in JavaConfig.java class
+                
+                  @Bean                          // This is Mthod 3 @Bean to give obj to IOC container 
+	              public Student getStudent()
+	                {
+		              //creating a new object
+		              Student student = new Student(getSamosa());
+		            return  student;
+	                }
+           
+           
+           

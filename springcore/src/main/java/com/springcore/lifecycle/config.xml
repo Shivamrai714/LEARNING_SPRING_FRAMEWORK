@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:p="http://www.springframework.org/schema/p"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+<!--
+<context:annotation-config /> 
+used this tag to enable annotaions @PostConstruct   - but not worked here on video 16 /code decode tutorial
+ -->
+
+
+
+
+<bean  class="com.springcore.lifecycle.Samosa" name="s1" init-method="init" destroy-method="destroy" >
+<property name="price"  value="50"  />
+</bean>
+
+
+<!-- In this 2 method not need to pass intit/ destroy in areguments , they have been include in interface in .class -->
+
+<bean  class="com.springcore.lifecycle.Pepsi" name="p1">
+<property name="price" value= "40" />
+</bean>
+
+
+
+<!-- The order for   
+    setting property -> calling init() -> calling destroy()
+   maintins for a bean
+   
+   Although the order of beans differs when more bean are taken. 
+   1 bean taken -> its obj created prop set -> init() of 1 bean
+   2 bean take  -> its obj create(prop set) -> init() of 2 bean
+   
+   then normal working : tostring
+   
+   2 bean destroy() called 
+   1 bean 
+
+NExt Using the Annoation 
+-->
+
+
+</beans>

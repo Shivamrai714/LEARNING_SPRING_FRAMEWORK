@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:p="http://www.springframework.org/schema/p"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd">
+
+<bean  class="com.springcore.auto.wire.Address" name="address">
+<property name="street" value="road raiseN" />
+<property name="city" value="Bhopal" />
+</bean>
+
+<!--
+<bean  class="com.springcore.auto.wire.Address" name="address">
+<property name="street" value="Sagar Road" />
+<property name="city" value="Raisen" />
+</bean>
+-->
+
+ 
+
+<!--
+Auto wiring work on Object type .
+ Here we have used autowiring , no need to pass reference of the object as we have done com.springcore.ref section using <ref bean= "" /> 
+
+Here we give the attribute autowire: 
+1.
+"byName" matches the name of beans with other beans declare at the top .
+To make their object and pass its reference here.
+2.
+"byType" mathes with class name, but error can come when more beans created of same class;
+The setter fun of Emp class is used to set reference og address var.
+3.
+"constructor" mathes with parameter constructor then it searched for name .
+-->
+
+<bean class="com.springcore.auto.wire.Emp" name="emp1"  autowire="constructor"  />
+
+
+
+</beans>

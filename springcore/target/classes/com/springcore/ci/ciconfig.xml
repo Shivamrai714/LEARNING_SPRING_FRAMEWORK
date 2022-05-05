@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:p="http://www.springframework.org/schema/p"
+xmlns:c="http://www.springframework.org/schema/c"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd">
+
+<!-- Also include the namespace of c-schema for directly passing val in bean tag : here to use it (constructor injection) -->
+
+
+<!-- First Need to declare the class Certificate which is used in person (dependent on Certificate) class  -->
+
+
+<!-- Method 1.  
+<bean class="com.springcore.ci.Certi"  name="cer" >
+<constructor-arg value="Java Certification" />
+</bean>
+-->
+
+<!-- MEthod 2 . Or can use c-schema for declaration , interface already included at top.
+<bean class="com.springcore.ci.Certi" name="cer"  c: name="Java Cetificates" >
+</bean>
+
+-->
+
+<bean class="com.springcore.ci.Certi" name="cer" c:name="Java certificates"></bean>
+
+<bean class="com.springcore.ci.Person" name="person">
+   <constructor-arg value="Shivam" />
+  <constructor-arg value="99" type="int" />
+  <constructor-arg  ref="cer" /> 
+
+    <!-- Or directly can use the using c-schema :  to avoid all these 3 constructor args tags.
+    Assignment 1: 
+    <bean class="com.springcore.ci.Person" name="person"  c:name="Shivam Rai" c:personId="99" c:certi-ref="cer"></bean>
+    Already defined Certi class (dependent class ) above to take reference here.
+    -->
+   <constructor-arg >
+    <list >
+       <value>Delhi</value>
+       <value>Bambai</value>
+       <value>Calcutta</value>
+    </list >
+   </constructor-arg >
+   
+</bean>
+
+</beans>
