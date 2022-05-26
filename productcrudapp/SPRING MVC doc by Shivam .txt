@@ -1,0 +1,966 @@
+                                                //  Learning spirng mvc from youtube code with durgesh lectures
+
+1.)Create the tomcat server  download tomcat 9 zip file. and extract it to the practice_eclipse folder in e drive
+
+2.) configure : eclipse window -> preference ->server ->runtime environment ---------  select(add) apache version 9 ->next and in browse : select folder of parent directory of bin.  then fininsh .  
+And try your server. window ->show view ->server 
+(if 1 time user) : then chooose the new server by right click and select tomcat 9 and also start your server and on goolge type localhost:8080
+
+STARTING MVC PROJECT:
+
+3).make a new maven project and choose the archtype-webapp  in categlog internal. and create springmvc project . and keep internet on and done.
+
+4).
+Configure Spring with Tomcat :
+
+
+Now error comes beacause index.jsp has not server runtime libraries . To Solve right click your project and choose buildpath
+
+Springmvc -> buildpath  -> configbuild_path -> libraries tab -> addserver runtime ->  tomcat 9 libraries .
+
+Inject mvc dependency from google in pom.xml , (do check the force install option if they do not import successfully ,in maven dependencies folder ) MVC itself install other required dependencies like core, context, etc
+
+
+5).     IMPORTANT 5 STEPS : 
+
+  A).CONFIGURE THE DISPATHCHER SERVLET  (front controller) IN WEB.XML and  also map the servlet. in web.xml file 
+
+  B).CREATE THE SPRING CONFIGURATION (spring-servlet.xml) FILE in WEB-INF folder
+  
+  C).CONFIGURE VIEW RESOLVER in .xml file
+  
+  D). CREATE CONTROLLER in pack cntroler in src/main/java
+  
+  E).  CREATE A VIEW TO SHOW PAGE   create jsp files of methods declare in HOmeCOntroller
+
+
+6).   In web.xml file create the servlet tag and create it , to search the class name of servlet can use CTRL + SHIFT + T in any java class and then search DispatherServlet and can copy package and class name from there , no need to byheart .
+
+And then also map the servlet declared with url pattern::  / to handle all the url requests
+
+7). Create Configuration file ::::   ( servletname-servlet.xml ) file : inside web inf folder ,copy data from previous config.xml file and remove extra beans. 
+
+8). create bean view  resolver and adject its 2 properties 
+   a-> give the prefix -> containing folder   /WEB-INF/views/
+   b-> give suffix -> ending of the page      .jsp
+
+   path of page is :    /WEB-INF/views/  ________  .jsp
+
+9). Make the controller class inside springmvc.controller package
+   and put annotation @Controller 
+   
+   -> also mantain @RequestMappping("/home")  to tell when will this function work on writing url or /home is fired .
+
+10). Now we need to create the "index".jsp page in views folder(if not present the create views folder.) 
+In views folder create new jsp file : index.jsp , and can delete old index present in WEB-INF
+   
+
+   Last step is to enable the @Controller annotation by <context:component-scan base-package="path where u used @Controller" >
+
+
+ At last save and run the springmvc project with server.
+
+localhost:8080/springmvc/home
+
+Simlarly create other method contacts , etc and run them from HomeController class
+ ___________________________________________________________________________________________
+
+
+VIDEO : 
+
+************* SENDING THE DATA FROM CONTROLLER TO VIEW ()
+
+ie not need to write static data in view pages, instead supply data from controller , which can be extracted out in views.jsp files.
+
+
+
+
+Use these method to send data
+Just pass the Model obj in () of method in HomeContl class and use Addattribute()
+
+METHOD 1:  (mostly used)
+_______________________________________
+-> model object : First import util.List in index.jsp : paste this in top  <%@ page import = "java.util.*"%>  
+
+         -> In HomeCntrler :
+          Take model obj in parameter of method and use 
+          model.addAtribute(String key, Obj val)
+
+         ->In JSP file : get data using scripplet tag  <% String name = (String) request.getAttribute("key") %>   also typecast it 
+         ->And then finally print <%=name %>
+
+         -> to print the list: loop is used out.println()  ......look code
+
+Alternate to using scripplet tag to extract data :  is expression lang : which can be ${name} , can be enalbed using <%@ page isELIgnored="false" %>  at top of jsp file
+
+______________________________________________
+METHOD 2 :
+
+->ModelAndView object   ->addObject(String key , Obj val)
+
+Make new controller to show model view 
+1. make @requestmapping("/help") and define a method named help 
+
+@RequestMapping("/help")
+public ModelAndView helpp()
+{
+ModelAndView modelAndView= new ModelAndView();
+
+System.out.println("this is help [page] ");
+    return "modelAndView";
+
+    modelAnsView.addObject("name","Rai" );
+     modelAndview.setViewName("help");      
+     // generally this was return in previous method.(ie the jsp page will is displayed upon firing in url)
+
+}
+
+2. create view (help.jsp file ) in views folder.
+ 
+ And rest part is same just get.Arribute("key") and display using scriplit tag
+
+
+
+ TIP:    WHat ever Additional features you are using just , import them at top under
+   <%@ page import="java.util.*"%>
+
+
+
+   _____________________________________________________________________________________________________________
+
+11).  Quiclky access SENT DATA :
+
+ Video: 57   Using jsp expression and JSTL
+
+Now we will learn : how to direcly use expression lang to avoid repetitive use of getattribute method. 
+
+ALso at top of .jsp file make
+
+<%@ page isELIgnored="false" %>  , ie now ${name} will be working. 
+
+
+To access a list directly print it {list} or jstl
+
+
+
+TO ACCESS LIST  ELEMENTS IN FOR EACH LOOP ::::::
+
+Use JSTL :
+to access in for-each loop -> for each element access.
+
+12). Applied all these concept in About.jsp
+  
+  a>
+  Inject JSTL dependecy in pom.xml
+  
+  b>
+  Also insert the <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  at top of the .jsp file.
+
+  So use now using this to access ele of list "marks"
+  <c:forEach var="item" items="${marks}">
+  <h1>  ${item} </h1>                            or can use here  <h1>  <c:out value="${item }"><h1>
+  </c:forEach>
+
+
+  _________________________________________________________________________________________________________________________
+
+   Video 58
+
+  13). Send data from view(form) to Controller(beckend) 
+
+
+       View              --------------------->   Controller 
+   (Html form)                           (HttpServletRequest)
+  
+
+  Getting the data from Controller 
+  using getParameter("field name")   ---->  old method 
+
+  Now in spring use 
+  @RequestParam          ---> get one -one field 
+  @ModelAttribute        ---> take all object data / full form  
+
+__________________________________________________________
+Video : 59
+
+@RequestMapping -->>
+i) can be applied to method to map 
+ handler method to use  url : /home  
+
+ii) can be applied to class so that all other method extned that
+   eg class mapping  /appoint 
+    ie  now methods url will be relat ive to class url
+   eg /appoint/home/
+
+Using RequestMapping we can also given method type (path and value can be used both same meaning )
+
+@RequestMapping(path="/home" , method= RequestMethod.GET)
+
+
+______________________________________________________________
+Video : 60 
+
+Make New view contact.jsp and design a form using bootstracp
+
+Also make a new controller  , in samepackage ContactController
+ to handle the submission of form :
+
+ Now take the 3 required field of form Email, UserNAme,Password.
+ Now for <form  action="processform" method="post"> we have give relative url="processform" not absolute url="/processform"  , also method is post so take care while taking out data using @RequestMapping to give value/path and the method type
+
+ Now go to HomeController and design the handle method to support the processform url fireing
+
+:We have used @RequestParam to fetch the field from  "form" submission , And Model Object (model.addAttribute) to send the attributes to another jsp page so that there they can be extracted out using expression language ${name }
+
+
+____________
+
+ @RequestMapping(path="/processform" , method = RequestMethod.POST)
+    public String handleform(@RequestParam("email") String userEmail ,
+            @RequestParam("userName") String userName ,
+            @RequestParam("password") String userPassword  , Model model)
+    {                                   
+   model.addAttribute("name",userName);
+  model.addAttribute("email",userEmail);
+  model.addAttribute("password",userPassword);
+
+  return "success";
+    }
+___________________________________________
+
+Include isElIgnored=false at top of file
+
+In success.jsp page just fetch the data using expression language.
+
+
+Then run the project and fire
+ http://localhost:8080/zpracticemvc/contact
+
+
+By default the argu of requestParam are true ie valued needed can also make value as optional to enter
+@RequestParam(name="email" , required= true) String userEmail 
+
+-----------------------------------------------------------
+// FUll code of Handle method , till we have not used ModelAttribute
+/*************************************************8
+
+@RequestMapping(path="/processform" , method = RequestMethod.POST)
+    public String handleform(@RequestParam(name="email" , required= true) String userEmail ,
+            @RequestParam("userName") String userName ,
+            @RequestParam("password") String userPassword  , Model model)
+    {
+  
+User user = new User();
+user.setEmail(userEmail);
+user.setUserName(userName);
+user.setPassword(userPassword);
+
+  System.out.println("User mail is "+ userEmail  );
+  System.out.println("User Name is "+ userName  );
+  System.out.println("User Password is "+ userPassword  );
+  
+  //process data
+  
+  
+  //sending data to view using Model
+  model.addAttribute("name",userName);
+  model.addAttribute("email",userEmail);
+  model.addAttribute("password",userPassword);
+  
+  
+  return "success";
+    }
+
+*********************************************/
+
+
+
+
+
+
+_______________________________________________________________
+
+Video 62 :       VERY IMP 
+
+USE 1::::::::::::::
+
+@ModelAttribute annotation : VERY IMP it does 3 works 
+
+ 1.It fetches the data from form :( DOING WORK OF REQUESTPARAM to fetch details from from submission. )
+ 2.It assign Fiedls to Entity class Eg userName, Password , Email to user data : helpfull to display user.
+ 3.It also send the data to next Jsp page:DOING WORK OF MODEL.ADDATTRRIBUTE
+
+IMP: Mapping should be correct ie name used  in "form" should be same as name used  in User/Entity class
+
+
+---
+Intermeditate practice :using obj of class User to display and set fields instead of individual displaying fields display full user obj:
+ Now we are making the Object of Model (User class) , whhich has fieds userName, email,password .
+ Now  Also : only single object of user will be added using model.addAttribute(user);
+ And in jsp file also accessing by user.userName etc ;
+----
+
+NOW JUST Replace all code using @ModelAttribute in one line code
+
+
+
+Use 2:::::::::
+ Another use of @ModelAttribute is to keep the repetive code of all jsp pages together, 
+  eg we have used Header and desc in both pages success.jsp and contact .jsp
+
+ That is each time when the all jsp pages started first of all : @modelattribute method  content will be added there ie before handles method run : see console
+
+
+
+ __________________________________________________________________________________
+
+
+
+VERY IMPORTANT : SAVING DATA OF USER FROM HTML FORM TO DATABASE TABLE
+
+ Video 63 .....................................................
+
+ Spring orm + spring mvc configuration:
+
+Follow layer Structures
+
+CONTROLLER LAYER -----> SERVICE LAYER -----> DAO LAYER (use hibernate obj to access)-----> DATABASE
+
+ Configure Spring orm
+ STEP-1:
+
+  add spring orm dependency , hibernate dependecy , mysql connector dependency.
+STEP- 2.
+
+ Make the classes UserDao at DAO package to access Database
+    
+    Now declare the method to save 
+   
+   //declare save method
+
+ // spring ; automatically inject obj of it , just need to  decalre the bean of its class in .xml file
+   
+    @Autowired
+    HibernateTemplate hibernateTemplate;
+    
+    public int saveUser(User user)
+    {
+     int id=(Integer)this.hibernateTemplate.save(user) ;
+    return id;   //return id of saved user.
+    }
+
+    the user object, 
+    We need hibernateTemplate obj to access database (@Autowired)
+    Also enable the writing mode @Transational (wheneven we add/update the data in database this is used):
+    Working dicussed in orm and jdbc lectures
+
+STEP-3.
+
+Declare the User class as
+@Entity so table create for it in database    :
+            Also this time take take another attribute private int id
+            
+@id
+@GeneratedValue(strategy=GenerationType.AUTO) in user Table
+
+
+STEP-4.
+
+Make the service layer class : which access UserDao 
+Make UserService under springmvc.service package
+
+Here we use the UserDao obj (@autowired) to save the created user
+
+delcare UserDao obj and call its save method from here 
+
+eg
+
+  @Autowired             //means obj will be given by spring
+ private UserDao userDao
+ public int createUser(User user)
+ {return this.userDao.saveUser(user);
+ }
+
+ 5.
+ Now use the controller class
+ and declare the var of UserService and call the createUser method of it in handleForm method
+
+ @Autowired 
+ UserService userService;
+
+ public String handleForm()
+ {
+/...
+
+this.userService.createUser();
+retun "succes";
+
+ }
+
+
+So indirectly 
+
+Controller has (UserService obj)   ----->    UserService has(UserDAo obj) --------> UserDao (has hibernateTemplate obj ) ---> Then DATABASE accessed
+
+
+IMP:
+
+Since we have used the @Autowired for obj creating so they must be declared in .xml files 
+
+Or use this shortcut Annotaion instead of giving xml defination of beans for them
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+New Shortcut Notations:
+
+@Service 
+---place this at UserService class (SERVICE LAYER), 
+so spring will understand this is service class and it will inject its obj to @Autowired use for obj creation
+
+@Repository
+---place this at UserDao class      (DAO LAYER)
+so spring will understand this is Database layer / data access obj class , so spring will inject its obj to @Autowired use for obj creation of UserDao
+
+--------------------------------
+NOW TO MAKE ALL THESE CONFIGURATION WORKING / ANNOTAION WORKING , ENABLE THEM IN SPRING-SERVLER.XML FILE
+
+WE ARE changing the context :component Scan to full project name "springmvc" : ie it will scan all its sub packages and make all  annotations fully funtional
+
+
+-------------------------------------
+Also we have Configured every other classes like Dao, services, but not the hibernate template.
+So declare this in .xml file
+
+***** HEre we imported all configuration from springorm we have configured hibernate Template class.(REfer video of Spring orm )
+
+
+Basically we need 
+----> HIBERNATE_TEMPLATE class 
+----> which need SESSION_FACTORY (modify code of the entity to springmvc.model.User) 
+----> which further need DATA_SOURCE (ds)
+----> which furtehr need the setting configuration of DRIVER_MANAGER_DATA_SOURCE (ie setting driver, userName, password of database used)
+
+
+________________________________________________________________________
+
+Wrting mode error --------------- comming because hibernatetempalte obj is not able to open session so
+
+Lastly to do the update/add operation on database we need @Transactional , which need to define 
+
+HibernateTransactionManager class in .xml which takes session factory (alredy defined)
+
+
+******* So first put @Transactional above the saveUser method in UserDao class ,  or whereever u are calling chages in database like save , update etc
+
+so declare this class ----------------> hiberenateTrasactionManager class as a bean in.xml
+
+
+
+
+
+
+Also at top : write the <tx:annotation -driven /> 
+
+-->need to define the schema for this  tx : so just copy paste p schema and replace the tx inplace of p :
+
+-->Also last two lines copy and replace the "context" with "tx"
+   in last to line of context .
+ 
+Now Submit the form : And see the updated table in your database 
+
+Success --
+ ************************************************************************************************************************************************************************************************
+
+
+ ___________________________________________________________________________________________________________________________________
+
+ Video 64:
+
+ How to redirect in spring mvc: That is when we fire one page url it redirect to other page
+
+ 0) HttpServletResponse: we can use this old method : take argument of HttpSErvletResponse in method and call response.sendRedirect(); //also handle exveption in this case
+
+ 1)redirect prefix
+ 2)Redirect View
+
+ Make a class Recontroller @Controller - this is enabled already in .xml by scanning the component Scan "zpractivemvc" package
+ Define the methods in ReController : to use redirect just return from method 
+
+@requestMapping("/one")
+public String one()
+{ system.out.println("this is one handler");
+ return "redirect:/enjoy" ;                        // this is redirect prefix
+
+}
+
+@RequestMapping("/enjoy")
+public String two()
+{
+    System.out.println("this is two method");
+    return "";
+}
+
+Method 2:
+Using redirect view : we have to return the object of redirectView
+
+@RequestMapping("/three")
+    public RedirectView three()
+    {
+        System.out.println("This is three handler runnning the redirect view");
+        RedirectView redirectView= new RedirectView();
+        redirectView.setUrl("https://www.google.com");  //("contact")   // need to given relative path only contact,  not /contact it will lost the project name 
+        return redirectView;   
+    }
+
+
+    ZPRACTICEMVC IS FULLY WORKING CONCEPT OF SPRING MVC CONCEPTS
+
+___________________________________________________________________________________________________________________________
+
+
+Video 65 : PROJECT ON REDIRECT VIEW : Search Engine 
+Using the conecpt of Search in goolge we have used our own search box 
+
+_________________________________________________________________________________
+
+Video 66 :HAndling the complex form :
+
+Done under folder of Springmvcsearch
+
+Type the form html code in complex_form.jsp file : importred link form bootstap :
+
+Now made a newController  FormController class 
+ -using the handler method to tacke form submission(path,post)
+ -using ModelAttribute("student") Student student to do 3 things together
+ -Made a new class for Student in src.main.java 
+ -Assign all attribute with same name that we had taken in html form
+ -And in success.jsp page we have printed Student
+
+ _________________________________________________________
+ Video 67: Binding Result to show errors
+
+ WE have just used the BindingResult object as argument to form handler method , and used its obj.hasErrors() method to return a view/jsp
+ And in our jsp we have placed the error using alert box of bootstrap
+
+ ____________________________________________________________
+
+ Video 68 -69
+
+ Handling the static file resources : ie handle images, adding the js, css files in folders
+
+Make seperate folder of the css, js, images under resources folder
+Define files and imges under specific folders
+
+Now to inlcude the required files in your jsp Configure mvc in xml and include their links in .jsp file also include jstl taglib in respective .jsp page
+
+
+ Here we are showing the static file in SearchController because it contains the home.jsp page where we are linkning the css and js files
+
+In sring-servlet.xml file : we have enabled the mvc annotation 
+Just declare schemas for mvc by copy pasting p and last two lines of context
+
+
+<mvc:annotation-driven />              
+<mvc:resources location="WEB-INF/resources/" mapping="/resources/**" />
+
+
+
+we have added the jstl taglib in home.jsp top line
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+ LAstly
+ Apply the link tages in home.jsp 
+
+ <link href="<c:url value="/resources/css/style.css"/> "> 
+<script src="<c:url value="/resources/js/script.js"/> "></script>
+
+
+Also to declare the image in home.jsp
+Use 
+<img alt="my image" src="<c:url value="/resources/image/pass photo.jpg"/>" />
+  
+
+  ____________________________________________________________________________
+ 
+  Video 70 :
+
+Stepss: Take CommonMultiple part ,configure it in .xml as bean and takes object of CommonMultipart inhandler method 
+
+   File Uploading in mvc :::::In zpractive mvc project by mistake shifted from searchmvc to zpractive
+  (Later corrected this , present in both projects)
+
+  Using multipart resolver Commmonmultipart resolver
+  Do configuration in .xml file
+
+Inject common file upload dependecny in.xml
+Inject common io dependecny in .xml
+
+Declare bean on multipart resolver in spring-servlet.xml
+Make the form of file submit from bootstrap , then include the method action of form , aslo give the enctype="multipart/form-data"
+
+Basically  we need to take the image form "from  " submission using the @RequestParam("profile") also obj of CommonsMultipartFile file ,HttpSession s) are taken to store the collected image file and save this file on new folder/or server.
+We have various funtions for file . and to save this file 
+1 collet it in byte[]
+ then take the path wehere u want to save , and finally using fileoutput stream write the data of file and then close it
+
+ Also handles try and catch for write operation
+
+
+@RequestMapping(value="/uploadimage" , method=RequestMethod.POST)
+    public String fileupload(@RequestParam("profile") CommonsMultipartFile file ,HttpSession s)
+    {
+        System.out.println("This is file upload handler");
+        System.out.println("File size:"+ file.getSize());
+        System.out.println("File name:"+ file.getOriginalFilename());
+        
+        byte[] data= file.getBytes();
+        // we want to save this file on server , but what eclipse do is it save the project on wtpwebapps folder , there spring follow structre of project and save this file : this problem is not present when we deploy project on server
+      String path=  s.getServletContext().getRealPath("/")+ file.getOriginalFilename();
+        System.out.println(path);
+
+        try {
+            FileOutputStream fos= new FileOutputStream(path);
+            fos.write(data);
+            fos.close();
+            
+            System.out.println("File uploaded in desired folder");
+            
+            
+        } catch (IOException e) {
+            
+            e.printStackTrace();
+            System.out.println("Uploading / file writtning error ");
+        }
+        
+        
+        return "filesuccess";
+    }
+
+
+
+This is where our image is saved in : secret folder of eclipse
+
+ // we want to save this file on server , but what eclipse do is it save the project on wtpwebapps folder , there spring follow structre of project and save this file 
+All project are run from this folders basically keeps copy of original project and run them form here
+ : this problem will  not come/ present when we deploy project on real server
+
+
+E:\coding\Practice_eclipse\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\zpracticemvc\pass photo.jpg
+File uploaded in desired folder
+
+
+ALso if u want to display the collected image of form to next jsp page , take Model to send data from handler method and  then in .jsp page: use img tag and use c: tagli of jstl to display image (iclude at top taglib of jstl)
+_______________________________________________________________________________________________________________________________
+
+Video 71  :::::
+
+PAth Variable annotation :
+
+The @PathVariable is used to bind the uri varible to varible
+
+eg http://localhost:8080/springmvcsearch/user/99/Shivam
+
+   @RequestMapping("/user/{userId}/{userName}")
+    public String getUserDetail(@PathVariable("userId") int userId, @PathVariable("userName") String userName)
+    {
+        System.out.println("USer ID : "+ userId + " "+ userName);
+        return "home";
+    }
+    hence spring bind int id with 99 and name Shivam
+
+In SearchController , defined a method for it
+
+_____________________________________________________________________________________________________________----
+
+Video : 72: 
+
+Handling exception in beckend
+
+**We are working in search controller , so disabled the js and img as they disturbing ele form home .jsp by putting comments
+
+Here we used our used defined exception handling page.
+
+we are using a handler method
+
+@ExceptionHandler(value=NullPointerException.class)
+public String exceptionHanderNull(Model m)
+{
+    m.addAttribute("msg","Null Pointer exception has occured");
+    return "null_page";
+}
+
+//similarly we can define the generic expression hander, the main task it to design a html form for error showing in the null_page.jsp file.
+
+If we want also send the status , include the 
+@ResponseStatus(value="HttpStatus.INTERNAL_SERVER_ERROR")
+
+// this status can be seen in web page by inspecting it and looling console for error
+
+We have not copied the null_page code so unmannered view will come
+
+?_________________________________________________________________________________
+
+Video 73: Exception Handle for full project 
+
+We make a new class MyExceptionHandler , which hanlde the all errors of Project
+:Just paste the methods inside this class
+
+Use anntotation on class
+
+@ControllerAdvice : tell the spring to use it as Exception handler for project and tell the exception accorfing to methods defined inside it.
+
+_________________________________________________________________
+
+Video 74:
+
+SPRING MVC INTERCPTOR:
+refer diagram :
+It can be used to check the validation of name data etc
+
+Spring interceptor provides the working , at 3 places
+ a- before the request is mapped with handler method'
+ b- after handler method
+ c-after view is resolved , and readly to display response
+
+
+Need to HandlerInterceptor interface has class
+HanlderInterceptorAdaptor class , 
+make our own class and extend this previous class
+we have 3 method to override
+
+-preHandler (used can be as filter to return back control if it return false , then request is send back , spirng mvc accepts that request has been handled , and no fulrter processing needed)
+
+-postHandle (after hanlder and before view)
+
+-AfterCompletion (after view)
+
+----------------------------------------------------
+Make new project as springmvcexample for concept of intercept
+
+::::Configure all the project using the web .xml and spring-servlet.xml file and then inlcude the dependencies in pom.xml
+
+Include the interceptor mvc tag in .xml servlet file and pass the path url , before which u want to use your interceptor pre handler method
+
+ <!-- this inereceptor will work beforee fireing welcome  -->
+
+<mvc:interceptors>
+   <mvc:interceptor>
+   <mvc:mapping path="/welcome" />             
+     <bean class="interceptorExample.MyInterceptor" />
+   </mvc:interceptor>
+</mvc:interceptors>
+
+
+To apply the validation in pre handler method just use the class MyInterceptor and override its methods . prehandle
+
+get the name used in form field and ally the condition on it. If String not satisy that condition then return the request , wiithout further processing . with the msg can be given by response.____ methods 
+
+eg :
+
+String name=request.getParameter("user");
+        if(name.startsWith("d"))
+        {
+            response.setContentType("text/html");
+            response.getWriter().println("<h1>Invalid NAme: Name should not Start with d");
+            return false; //return no need to accept the d strings
+            
+        }
+_______________ ______ _______________________________________________________________________________
+
+
+VIDEO 75 :
+
+PROJECT APP: 
+
+ Project on CRUD (Create , Retrieve(read) , Update ,Delete)
+
+Usage concepts:
+spirng mvc 
+Hibernate (jpa)
+
+Need : Configure the tomcat, connect the msql database
+
+Make a new Maven project and select the maven archtype-webapp project
+package:com.operation
+Name: productcrudapp
+
+1. Correct the error in src/main/web-inf index.jsp error beacuse of tomcat absence, so choose project and select buildpath as add library -> server runtime -> tomcat 9  save it .
+(if tomcat is downloaded and confiugred else also can add dependecy of tomcat (not used here)) .
+
+2.
+Add dependencies in pom.xml:
+spring web-mvc
+spring orm (object relational mapping )
+spring hibernate
+my sql connector
+
+
+update the maven as project .
+
+3.
+configure the sping web.xml file
+ configure dispatcher servler ,and mapp it with url pattern .
+
+4.
+Make the spring-servlet.xml file
+Declare the schema  
+And use the component scan to scan base package:  
+Make new Controller class.
+
+Declare the class of view resolver : prefix and suffix are delcalred 
+Make the views folder inside the web-inf
+
+Configure the database in spring-servlert.xml file(spring orm tutorial )
+-> datasource bean : set database properties 
+->local session factory bean  : set dataSource , hibernate properties
+(Change the classes remove annotaed classes fomr list tags )
+-> Make hibernate template 
+-> Also use hiberante transaction manager bean (used for update operation) and also enable tx:annotaion -driven , also declare schema of tx
+
+
+
+------Done with Configuration of the project 
+
+Now make the DAo class in dao package, which use the obj of (@Autowired)hibbernate template to connect with databasee .
+Use @componentScan on Productdao class,  so spring will deal with obj of dao class
+
+Basically this obj will do all operartion with the database.
+Also define the Product class in model package.
+
+Make the product class as well
+use @Entity annotaion form product class.
+also make Id as auto incremented.
+@Entity
+public class Product
+{
+
+@Id
+@GeneratedValue(strategy=GenerationType.AUTO)
+private int id;
+.
+.
+.
+}
+
+make getter setter and toString as well
+
+
+
+8888888888888888888888
+
+Now since we have used the entity on the Product class
+we need to give this class int .xml file under the annotaed classes of sessionFactory.
+
+
+<!-- c).annotedClasses-->
+<property name="annotatedClasses" >
+  <list>
+   <value>
+  productcrudapp.model.Product
+  </value> 
+  </list>
+
+NEXT PART WE CONFIGURE MVC : and work with controllers
+  __________________________________________________________________________________________________________________________
+
+  Video 76: 
+  we are here using the the new databases product crud which is defined in .xml DriveManagerDataSoucre bean
+
+Inlcude the css, and javascript links from the bootstrap 4 
+aslo oone line of resposive making : 
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+
+  Now we included the jstl in pom.xml to weite the data in jsp files. Also included the taglib of jstl files in the jsp file , basically using the c: to write the jstl
+
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+Basically jstl is used to fetch the data at run time , and if data is not provided then it puts the default value.
+
+
+We have coded the add-product jsp page. and also included the  common  base.jsp file using 
+<%@include file="./base.jsp" %>
+
+
+We will design the basic jsp page of product. 
+We have take the Back Button functionality.
+
+we have used  <a href="${pageContext.request.contextPath }/" , this will keep the project url intact otherwise it will not work (back button) here, whereas online itcan work. 
+
+So include this : contextPath will become / in hosting it online
+
+____________________________________
+
+Now we desing the handler for this submission of form :
+Handle_product
+
+Here we use handler which redirect us to another view. Also use the HttpServletRequest to get the contextPath , so upon redirecting path of project is not vanished. (unless we host it online)
+
+Now we need to save the product , 
+
+So use the product Dao controller , in controller to save the product
+
+Now just use the productDao obj in home controller , and call the create method in the form-hanlder method
+
+See Data will be saved in sql database. 
+____________________________
+Now 
+
+work on index.jsp file / home page file. 
+Include the base.jsp file
+
+In add_product handler method : inlcude the base.jsp file so css,javascript wil be included.
+Make a form uisng the bootstrap Also design the back and add button.
+
+Using the jstl : using c:for each loop 
+Also jstl taglib is used to put the the title from runtime to page, otherwise default title is put in it.
+
+In add-product form handler
+We use the HomeController method: We have used model to put the tittle at the run time using jstl. 
+
+In home handler used productDao object to get all stored record in database  and displayed in  index.jsp page using table format dynamically using jstl for each loop.
+
+-----------------------------------------------------------
+
+To work with delete ffuntion : just declare the delete handler and make it as Redirecting view , use product Dao to delete also set the redirecting url as 
+
+// here when we provide the url / it will remove the project name, so need to get the context path using httprequest
+      redirectView.setUrl(request.getContextPath()+"/");
+    
+Font awsome ion cdn to get button sumbols : copy the link and past to base.jsp along with css defined there
+Now next open the Font Awseome webbsite to get icon , copy the code and paste it in table td tag using anchor tag
+
+https://cdnjs.com/libraries/font-awesome
+https://fontawesome.com/v4/icon/trash
+
+now comming to index.jsp and addding another td tag to delete button addition - delete/ id --- this is going to fire the handler method with id at runtime hence ...processing it faster.
+
+__________________________________________________________________________
+
+Video 77 : Adding update feature to project
+
+Same copied the add_product form , just change it with update , also used value tag to display previous availble values.
+
+We need to declare button , just same as above to update the recored , in index.jsp.
+Also make a handler for updating ,we have passed the product  via model from index page to update_form page, here we display old details that need to be filled to update.
+
+Now we can use this form -action to be handled sepeately , but here we use same handler for update also.
+
+Just modify the save product called function of ProductDao object.
+Use saveorUpdate funtion
+
+Here we have used the updateform .jsp so in form action give the url using pagecontext /handleproduct otherwise it will not update 
+<form action="${pageContext.request.contextPath }/handle-product" method="post">
+
+
+we are using the login , that same handle controller is used for add and update,
+while adding we dont pass the id, so new id is assigned and add
+while updating we also pass the id , so it update already present id
+
+Also make the type attribute as hidden , in update from .jsp page
+
+_____________________________________________________________________________________________--
+
+
+
+All the changes of the funttions are also refleceted in my sql database as weill
