@@ -1,0 +1,70 @@
+Video 78 Aspect Oriented Programming:
+
+Its is used to run the segment of code befor and after the selected unit without disturbing the main code.
+
+
+eg public PaymentService
+{
+
+//code before the function	
+
+public void makepayment()                  ---->JOIN POINT
+{
+	
+}
+
+
+//code after the function
+
+
+}
+
+
+
+
+
+
+
+
+
+
+CODE : make the new maven project and type as quick start
+
+___________________________________________________________________
+
+1)add dependeccy of spring core, spring- context,
+2)Make the payment Inteface also class 
+Search spring cre dtd to get xmlns for config.file
+
+simply create the bean in xml ,so that object can be managed by spring. 
+using contextPath to acceess object direclty
+
+Get Dependencies like 
+spring aop
+aspectjruntime
+aspectjweaver
+
+****************IMPORTANT REMOVE THE SCOPE PART FORM THE ALL DEPENDECIEES OTHERWISE IT WILL NOT WORK
+
+Update your project , and chek if dependecies of aspectrt etc are added or not , otherwise just force update them.
+
+
+all the advices are kept in aspect class
+Make new class Aspect , and keep method with annotation like @After @Before etc
+
+
+
+
+
+If we pass the paremeter in makepayment() function :
+then use .. in @before ohterwise patten will not match .
+
+when paymentObject.makePayment(123);
+
+@Before("execution(* com.aop.services.PaymentServiceImpl.makePayment(..))")
+	public void printBefore()
+	{
+		System.out.println("Payment started...");
+	}
+
+Refer video for more use  Tutorail 78 Spring series Code with Durgesh Youtube
