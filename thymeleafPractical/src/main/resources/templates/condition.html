@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>Condition Handler</title>
+</head>
+<body>
+
+
+<h2>Inside the Condition Handler method</h2>
+<h1>Inside the Elvis (ternary) operator</h1>
+
+<h1 th:style="${isActive} ? 'color:red' :'color:blue' " th:text="${isActive} ? 'ACTIVE' : 'NOT ACTIVE' "></h1>
+
+<h1>Inside the If unless operator</h1>
+
+<h1 th:if="${gender}=='M' "> Male </h1> 
+<h1 th:unless="${gender}=='M' " >FeMale</h1>  <!--  Unless means not of if cond  --> 
+
+
+<!--Switch   -->
+
+
+<h1></h1>
+<div th:switch="${#lists.size(mylist)}">
+<h1 th:case="'0'">List has 0 ele</h1>
+<h1 th:case="'1'">List has 1 ele</h1>
+<h1 th:case="'2'">List has 2 ele</h1>
+<h1 th:case="'3'">List has 3 ele</h1>
+<h1 th:case="'4'">List has 4 ele</h1>
+<h1 th:case="*">List has more than 4 ele</h1>
+
+
+
+</div>
+
+
+</body>
+</html>

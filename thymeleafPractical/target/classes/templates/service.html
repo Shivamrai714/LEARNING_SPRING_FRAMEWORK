@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"   xmlns:th="http:www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+</head>
+<body>
+<h1>We are inside the Service - including footer from footer1 fragment.  . </h1>
+	
+	<!-- Going to include the  Footer  
+	
+  	<footer id="host" th:replace="footer::footer1('This is dynamic title ' , ' this is dynamic sub title ')">
+	</footer>
+	-->
+	
+	<footer id="host" th:replace="footer::footer1(${title},${subtitle})">
+	</footer>
+	
+	
+	
+	
+</body>
+</html>

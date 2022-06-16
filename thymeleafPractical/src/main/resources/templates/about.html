@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>About page</title>
+</head>
+<body>
+	<h1>This is about page</h1>
+	<h2>Name of Author is <span th:text="${name}"></span></h2>
+
+<h1 th:text="${#strings.toUpperCase(name)}"></h1>
+<h2>Lenght of String is :</h2>
+<p th:text="${#strings.length(name)}"></p>
+<h2>Current Date is <span th:text="${currentdate}"></span> </h2>
+
+
+<!--Define our own variables :  -->
+
+<div th:with="a=5, b=40, n=${name}">
+
+<h2 >Value of a is : <span th:text="${a}"> </span></h2>
+
+<h1 th:text="'Value of n :' + ${n} "></h1>
+
+<h3  th:text=" 'Sum of two num '+ 'a= '+ ${a} + ' b= '+ ${b} + ' is ' + ${a+b}  "> </h3>
+</div>
+
+
+
+<!-- Loop iteration   
+
+ 
+ <ul>
+ 
+ <li th:each="n : ${names}">
+ <span th:text="${n}"></span>
+ </li>
+ 
+ </ul>
+
+-->
+
+
+</body>
+</html>
