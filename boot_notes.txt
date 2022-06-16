@@ -1,0 +1,1324 @@
+START with spring boot.
+(refer screen shots taken in phone and laptop of Code with durgesh lectures)
+
+
+
+----------------------------------
+
+Useful dependecy 
+
+Video 17:  devtools dependecy - for automatic relaod of the projectt , no need to re run again,
+
+_______________________________________
+
+
+
+
+
+
+We use 2 types .
+1.Use spring initializr online to get boot proejct
+2. Use ide like sts spring tool suite (same as eclipse)
+
+also  3. command line , 4.create maven project and add starter dependencies in pom .xml.
+
+_____________________________________________________________________
+Video 4:     --- MEHTOD OF ONLINE spring initializr
+
+
+Google search: spring initializr website and create the maven project of springboot.
+Select project maven, java , stable default version (2.3.2) , given g_id , artificatid ,etc , select jar file , and java version of system (your comp)
+
+Now import the dependecies , search ->  Spring web   , jpa  , my sql connector, developer_tools ,
+Now generate ctrl project and downlooad it and extract.
+
+Next task is to open it in eclipse 
+Go to file -> import -> existing maven project 
+Give the parent directory of pom.xml (ie folder which has subfolder as "src")
+
+Wait to 2 min to manage maven to download the dependecies and cofigure the project.
+
+__________________________________________________________________________
+       
+
+@SpringBootConfiguration -> it does work of 3 annotation like 
+@Configuration @EnableAutoCongiguration @ComponentScan 
+
+Now make a controller class in our package
+
+@ResponseBody over the handler-test method in Controller:
+when we dont have jsp page to return we just return string as it is on web page.
+
+mvnw files are for command line usage of boot.(no need here)
+
+In pom.xml comment out the jpa, mysql connector : otherwise error will come because the jpa need the database configuration. (Done in later video of configuration of application of properties.)
+Use only web dependecy .
+
+If server error comes : just change the port in / close and restart eclipse.
+
+application.properties
+server.port=9192
+then run the project as java application (allow altet)
+
+To access browser search : localhost:9192/test
+
+
+____________________________________________________________
+
+                      --- MEHTOD OF ONLINE spring tool suite ide (STS)
+
+Video 5 : STS (Spring tool suite) / download plugin of sts in eclipse
+
+Google the sts (SPRING TOOLS 4) downlaod and instal the 380 mb file form tools spring.io link.
+Now extract the file and run it in e drive coding folder ....
+Give  fields and add dependency .Do not touch main project untill full project is configured.
+Give port in applicatation properties. server.port=8282
+Comment the web, jpa , mysql dependecy otherwise database not configured error will come.
+Now make a controller class aslo given handler method and use @ResponseBody to return String text.
+
+_______________________________________________________________
+(Optional)
+Video 6 : Using Vs code refer video install Spring boot extension pack and java extension pack extensions 
+
+_______________________________________________________________
+(Optional)    --- MEHTOD OF to use STS on ECLIPSE IDE only.
+
+Configure eclipse Help -> eclipse market place  -> springtool 4 -> check all boxes  install waiting ->Restart it .
+
+Now click file -> new -> other -> springboot -> spring starter project.
+
+
+_________________________________________________________________________
++++++======================================================++++++
+
+CONTINUE WITH STS : CODE WITH DURGESH VIDEOS: LECTURES 
+
+
+Using sping tool suilte for learning boot.Its provide the option for creating the Spring starter oeiject : Just need to tell what dependecy need, maven will automatically add them and manage the structure of the whole proj.
+ 
+
+Video  8 : Configure View resolver : Showing jsp pages  *************
+
+
+
+Create new Spring starter project in sts ide.
+Group -com.web
+Artifact - springmvcboot
+descrip - web project using spring boot
+pacakge - com.springboot.web
+
+Inlcude dependecy : spring web
+MAke a contrlr class in "com.springboot.web" this package.
+make a handler home and return home jsp page 
+
+
+-> Make a new folder for src/ main / new folder : webapp 
+and make another "views" folder and make home.jsp page 
+
+ALso configure the prefix -suffix in "application.properties"  file : by giving address after webapp folder.
+
+spring.mvc.view.prefix=/views/
+spring.mvc.view.suffix=.jsp
+
+Now file is downloding , but not showing on web page , 
+So use"jasper library"  depend.  to show content on browser
+Tomcat embedded jasper dependecy add in pom.xml (from google)
+
+____________________________________________________________________
+
+Video : 9   APPLICATION.properties
+
+Used for configuration purpose , since not config.xml file is present for seperate configuration in springboot.
+
+*application.yml file can also be used sometimes(not here)
+
+
+can change server.port=9090 then run again sprringboot app 
+
+____________________________________________________________________
+
+$$$$$$$$$$$$$$$$$$$$      VERY IMP        $$$$$$$$$$$$$$$
+
+Video : 10
+
+JPA (JAVA PERSISTENCE API ) 
+
+-> used for permanent storing the data  
+
+-> Its a ORM tool (Object releational mapping)
+    - orm  help to  fetch the row of table in database (and convert it to object)
+    - orm  help to  save data  in database (and convert object  into table data format)
+
+Only we need to map the fields with database (as done in mvc )     
+-> JPA can be implemented using Hibernate , Eclipse link , Open JPA
+-> JPA gives EntityManager intf and EntityManagerFactoy class  to provide the create, update, read ,delete features .
+
+
+_________
+
+Include springboot started data jpa dependecy . (will be auto configured by the boot)
+
+Now As User  it need UserRespository inteface (like DAO )
+or can use the child interfaces eg. CRUDRespository and JPARespository interfaces .(refer image)
+
+Basically this CRUDRepository interface has direct method to insert,delete , update operation on database , no need to write query.
+
+
+
+
+____________________________________________________________________
+
+Video : 11  WORKING ON SPRING TOOL SUITE IDE
+
+Make a new project -> select spring stater project 
+give name - ....
+
+select dependencies .
+->mysql driver
+->Spring data jpa
+->spring web(Not requred here in standalone project)
+
+IF JDK not configured.
+
+//Not needed for me : Do check the "java version" (system and project) and <parent> version of spring boot
+In error is comming due to build path not configured. select properties of project -> Java build path -> Librarries tab -> remove old jre of classpath and add new jre System library -> click installed jre and add new jre  (select the java folder form the c dirve - program files - java -> select jdk folder ) and finish click and close.
+
+
+
+Make a new entitty class in your package com.jpa.entities 
+
+Make User class as @Entity , also take @Id and @GeneratedValue as auto , generate construcor (defalut , paremeterised ) , getter setters ,to string.
+
+____________________________________________________________
+
+Make a UserRepository interface in com.jpa.doa package which extends CrudRepositry <User , Integer >
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+$$$$$$$$$$$$$$$$$$$$      VERY IMP        $$$$$$$$$$$$$$$
+
+
+
+
+
+
+VIDEO 12 :  project :bootjpa example
+
+
+
+Configure DATABASE in application properties
+
+spring.datasource.name=test
+spring.datasource.url=jdbc:mysql://localhost:3306/test
+spring.datasource.name=root
+spring.datasource.password=root
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MYSQL55Dialect
+(use cntrl + shift + T  ) to get MYSQL 55  dilect class / also try MYSQL8 (not for me)
+
+
+Now come to main appication file 
+and store the context of fuction in context variable ,and next get the bean of UserRepository
+
+.
+
+ApplicationContext context= SpringApplication.run(BootjpaexampleApplication.class,args );
+
+ UserRepository userRepository  =context.getBean(UserRespository.class); 
+
+ User user = new User();
+ set the name,city , status   fields
+
+Use userRepository.save(user);
+
+
+
+(NOT for me)
+If error comes in driver version (use additional time zone in url-- refer video)
+
+**********
+Id want to automaticlly get table in databasee , configure the properties 
+
+spring.jpa.hibernate.ddl-auto=updatae
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+VIDEO 13 : CRUD Operation using JPA
+
+CrudRepository interface has already the functionality of add, update, delete, get 
+We have used the userRepository which extends the CrudRepository .
+
+We use the ApplicationContext  to get bean of userRepository class.
+
+Now make the user u want to save
+
+// 1. Create / save 
+
+-First create obj of Entity class 
+-set the data manaually / via form etc
+-now use the save method of UserRepository and collect the user(press CTRL + 1  at end of statemtent) to print.
+
+
+--->  Saveall() method to save collection
+//if want to save the multiple user  (list ) together use  savaAll
+
+Making the list using list.of method (above java 9 version otherwise make the arraylist add items to it and then save it)
+
+make the objects first, then combine them in list function
+
+List<User> users= List.of(user1,user2);
+
+Iterable<User> result = userRepository.saveAll(users);                //inbuilt method to save in CRUDRespo
+
+// now use for each loop with lambda expression to print list.
+
+result.forEach(user->{
+System.out.println(user);
+})
+
+System.out.print("done");
+
+
+
+//  2. Updating data  , first get and then save it again.
+
+
+Optional<User> optioanal = userRepository.findById(11); 
+
+ //  this will return Optional user
+
+User user = optional.get();
+
+user.setName("Ankit..");
+
+User result =  userRepository.save(user);
+System.out.println(result);
+
+
+//  2. Getting the data
+
+
+
+use findById(id)  -> it will return Optional containing your data so use get method of optional as above.
+
+// to get the multiple objects
+
+use findAll method of userRepository.  , it will return the Iterrable list.
+
+// a ) .print list mehtohd 1.
+
+Interable<User> itr = userRepository.findAll();
+Iterable<User> iterator = itr.iterator();      // create the iterator
+
+//use while loop to print.
+
+
+while(iterator.hasNext())
+{
+    User user= iterator.next();
+    System.out.println(user);
+}
+
+//  b) print list method using forEach loop with anonmous class of Consumer and print it.
+
+
+itr.forEach ( new Consumer<User>())
+{
+    @Override
+    public void accept(User t)
+    {
+           sout(t);
+    }
+}
+
+
+// c) Using lambda function ///////  best one
+
+itr.forEach(user -> {System.out.println(user); });
+
+
+
+// Deleteing the element. (by object , by id ,  list of object )
+
+userRepository.deleteById(11);
+sout(deleted);
+
+
+// delete all first find them , then delteaLL
+
+Iterable<User> allusers = userRepository.findAll();
+allusers.forEach(user-> sout(user));
+userRepository.deleteAll(allusers);
+
+?????????????????????????????????????????????????????????????????
+
+
+
+
+
+
+
+
+
+//Video 14    
+.
+
+
+
+    //CUSTOM FINDER METHODS / Derived Query Methods 
+    
+//Using predefined pattern expression to make same method       
+    public List<User> findByName(String name);
+    //"findByName" ---->  find is  introducer  here // ByName  is ->property  to be seached 
+    
+    public List<User> findByNameOrCity(String name,String city);
+//  Various other CombinationOf Method can be made here look internet , just declare in intreface , make sure u make mehtod of your available fields(eg name, city) only
+    //use https://docs.spring.io/spring-data/jpa/docs/current/refernce/html/#referce website
+
+//other u can use
+    
+//findByNameStartingWith(String prefix);     //u can only change fiels "Name" , but not the predifined structure
+//findByNameContaining(String words);
+//findByNameLike(String likepattern);   
+//findByAgeLessThan(int age)
+//findByAgeGreaterThanEqual(int age)
+//findByAgeIn(Collection<Integer> ages)
+//findByNameOrderByName(String name)    
+
+
+In Main class file use the customfinder methods mehods
+
+
+  List<User> users = userRepository.findByName("Shivam");
+     
+      users.forEach(u->{System.out.println(u);});
+      */
+     /*
+      List<User> user = userRepository.findByNameOrCity("Shakshi","Bhopal");          //other methods also refer video for website link by drugesh  //use https://docs.spring.io/spring-data/jpa/docs/current/refernce/html/#referce website
+
+      user.forEach(u->{System.out.println(u);});
+      */
+
+
+
+
+
+      
+
+*************************************************************
+
+//Video 15 
+
+While using the JPQL query language  declare the methods in UserRepository :  
+ use like this 
+u.city=:t to give conditions in query 
+@Param("t") is used to bind variable 
+
+@Query("select u From User u WHERE u.name=:n or u.city=:t")                      //@Param is used to bind parameter (n)to varible of query
+public List<User>getUserByName(@Param("n")  String name , @Param("t") String city);
+
+
+//USing native query of sql
+
+@Query(  value="select * from user" , nativeQuery = true)
+public List<User> getUsers();
+
+
+************************
+
+
+//Making our own query
+    //-> a) Use JPQL (JAVA PERSISTENT QUERY) LANg (same as hibernate query lan) 
+    //->  b).   NAtive SQL Query  
+//    Need to use @Query
+      
+    
+    List<User> allUsers = userRepository.getAllUsers();
+    allUsers.forEach(usr -> {System.out.println(usr);});  
+      
+      System.out.println("++++++++++++++++++++++++++\n\n");
+      
+      List<User> userByName = userRepository.getUserByName("Shantanu" , "Bhopal");
+      userByName.forEach(tt->{
+          System.out.println(tt);
+          });
+     
+      System.out.println("++++++++++++++++++++++++++\n\n");
+      System.out.println("\n using native sql  \n");
+      
+      userRepository.getAllUsers().forEach(temp->{System.out.println(temp);});
+      
+      
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\\
+
+_________________________________________________----
+Video 17:  devtools dependecy - for automatic relaod of the prokect 
+
+_________________________________________________----
+
+VIDEO 16- * THEORY INTO TO API- basically the block of code , which helps software to use the feature of other appilication, eg payment iterface of paytm can be used by other application.
+
+
+(Refer screenshots on laptop)
+
+
+API : rules allow program/softare to contect with each other, it is posted on server, and other user/website can contact our website using this api.
+-they are basically set of function ,which return response(in json format ) -- when request/uri is given to them by user.
+
+
+
+___________________________________________
+
+REST API (REPRESENTATIONAL STATE TRANSFER ) api
+
+architectural style /rules for creating  website and api 
+
+eg client-server format
+   statless - no saving data 
+   layered
+   cacheable
+
+eg
+   METHODS OF REST API to be designed/followed:
+
+   * GET         --> GET/user/{id} -fecth the user
+   *PUT          --> update
+   *POST         --> POST/users  - create user
+   *DELETE       -->delete
+
+eg Give the errors code generated 
+
+   404 : resource not found
+   200 :success
+   201 :created
+   401  : unauthorized
+   500  :server error
+
+
+
+
+_________________________________________________----
+Video 18:   (DURGESH USED Vs code )
+
+REST API (REPRESENTATIONAL STATE TRANSFER ) api
+
+Project bootrestbook (using rest api ) :
+
+No database is Used : instead a arraylist is used to check working with postman for testing purpose.
+
+TO call api - POSTMAN for requesting the api / 
+
+In actual world requets comes form Anroid app / websites / or use postman. (all are called clients)
+
+Refer screenshot of paint.
+
+We are coding at Server , making controller to handle requests .
+ALso the response form Server are return in JSON / object format.(jakson dependecy does this)
+
+
+
+
+********************************************
+
+Making Book and using POSTMAN to handle the requests of various operations on database
+
+
+
+* @ReponseBody 
+is used to return text of handler method as it is, if jsp/html page of it is not present.
+
+In Rest api we need to use @RestController / inplace of @Controller
+
+*@RestController  - no need of @ResponseBody after using this.
+
+
+Use 
+*@GetMapping   --> to replace the code of @RequesMapping and method type as GET.
+
+
+Make the Book class , 
+and generate all cons,toString, getter , Setters.
+
+WHEN WE RETURN THE OBJECT OF BOOK , SPRING AUTOMATICALLY CONVERT IT INTO JSON , using deped. jakson .
+
+***********************************
+
+Normal flow ____
+
+Postman make the request :  localhost:8080/books
+Server processes the request and return the response in form of json (jakson dep convert the object returned to json).
+Handler method return type  is changed to Book 
+
+
+In BookService.java file
+
+Using FAKE List ArrayList / can use database also here(need to use DAO layer ).
+
+TO save data / get / etc using the static list , and add some entries in it for testing purpose.
+
+
+
+___________________________________________
+
+
+
+Using the modern funtion : to search id of Book
+
+Stream_filter(lambda fun).findFirst.get();
+
+
+
+//In HomeController
+@Path varible is used to map the Id passed in url of request with local varible of Handler method to get the request.
+
+    @GetMapping(value="/books/{id}")
+    public ResponseEntity<Book> getBook(@PathVariable("id") int id)
+    {
+        Book book =bookService.getBookById(id);
+    .
+    .
+    }
+
+_________________________________________
+
+*@RequestBody :
+is used to convert Book obj to json and add to List.
+
+
+In @PostMapping
+
+@PostMapping("/books")
+    public Book addBook(@RequestBody Book b)   //this help to add list by converting   json obj to list type abject.
+    {
+ .
+ .
+ }
+
+*********** 
+
+In POSTMAN : to send the request.
+
+to use post mapping:
+
+Copy format of 1 object : SELECT POST 
+them
+Select Body -> raw -> text as->json
+
+and paste the code and add modified object.
+
+ __________________
+
+
+Video 20: DELTET data 
+
+
+Deisgn the handler for delete and use the streamm filter  funtion {and pass lambda fun in it} to select id only which are not meatching with current it.
+In this way given id is deleted and this method return a new list containing rest of the books.
+
+
+
+list=list.stream().filter(book -> {
+            if (book.getId() != bid) {
+                return true;
+            } else {
+                return false;
+            }
+        }).collect(Collectors.toList());
+
+
+
+or i line cond
+
+    list=list.stream().filter(book->book.getId()!=bid).collect(Collectors.toList());
+        
+
+___________________________________________
+
+Video 21 Update Handler @PutHandling :
+
+Here map function of list.stream() is used.
+
+Make the handler in home controller. 
+    @PutMapping("/books/{bookId}")
+    public Book updateBook(@RequestBody Book book,  @PathVariable("bookId") int bookId)      //RequestBody is used to convert json data to object of list.
+    { .
+    .
+    .
+    }
+
+Also make the update fun in the BookService :
+
+ Book update :: use @PUTMapping
+    
+    public void  updateBook(Book book,int bookId)
+    {
+        //map fun basically check the obj and return the object.
+        
+        list=list.stream().map(b->{
+            
+            if(b.getId()==bookId)
+            {
+                b.setTitle(book.getTitle());
+                b.setAuthor(book.getAuthor());
+            }
+            
+            return b;
+        }).collect(Collectors.toList());
+        
+    }
+
+
+___________________________________________
+
+
+
+VIDEO 22 : Applying the HTTP Status Codes :
+
+
+
+* @ResponseEntity<Book> 
+
+:is used to sent the Http Status Code, 
+
+-> Just need to change the return type of function as ResponseEntity<>
+
+-> and retun  ResponseEntity.status(HttpStatus.NOT_FOUND).build(); if object is null .
+
+but 
+    return ResponseEntity.of(Optional.of(book)); if no errors come.
+
+
+
+**** Also handle the respected Exception : in getBookById() using try catch , other id are entered which not Exists
+
+
+
+
+_________________________________________________
+
+
+Video 23 :   Adding the actual database in the application .
+
+Add dependecy : starter jpa , mysql connector
+
+1.Add spring starter jpa depedency in pom.xml
+2.Put @Entity , @Table on table name
+3.create new database in mysql and configure properties in application.properties.
+4.Make the new interface BookRepository extend the CRUDRepository - - in dao package.
+5.Make the object of BookRepository and autowire it  and implement all the jpa project properties here. / create, delete, update,get queries.
+
+
+////////////////////////////////////////////////////
+
+Copyied the entire project (Bookrestapi) in another folder  of spring core  or (E:coding:Springboot:bootrestbook1) : because in next step : 
+This project will be modified according to the needs of Manual database addition :
+_________________________________________________
+
+
+Refer Video 23
+//Comment out the fake list. , remove/comment its all operation , and modify it acc. to userRepository object. 
+
+
+
+Just make use of userRepository object and use it : no change in code of HomeController , 
+
+only BookRepository , define method 
+and use them in BookService.
+
+
+After This revice the wholse DATABASE from project of jpa,
+Revise the copied folder (bootrestbook1), Bookapi by opening it in eclpise.
+
+C:\Users\SHIVAM RAI\Documents\workspace-spring-tool-suite-4-4.14.1.RELEASE
+
+
+Then revice this whole project of "bootrestapi" -connected with database;
+
+__________________________________________________________
+
+Video 24 :  Nesting of Author Class inside Book
+
+Now adding the another Author  class in the Book , where author has its own filed
+
+
+Just change the string author to Author.class type , make another Author table.
+And change filed accordingly.
+
+
+Now in book class , 
+declare one-to one mapping
+
+@OneToOne()
+private Author author;
+
+
+Here to save the author and book togethoer we need ti use cascase in @onetoOne
+
+Now go to postMan and add this object using the POST method.
+
+
+{
+    "id":8 ,
+    "title": "The Complete Reference",
+    "author":
+    {
+        "authorId":656,
+        "firstName":"Durgesh",
+        "lastName": "Tiwari",
+        "langugae":"Hindi"
+    }
+}
+
+
+Till know we have uni directional mapping , is book has author , but author dont have  to which book it belong
+
+
+
+-----------------------------------------------------------------------------------------------------------
+
+VIDEO 25 : Jakson Bidirectional Mapping
+
+We declare the object of Book in Author class , and add the @OneToOne mapping in it. to aviod the creation of seperate column of book_authorid* , we need to use the mappedBy="author" , 
+ie no extra column will be created , but both tables  will be connected thorugh author_id of author table.
+
+@OneToOne(mappedBy ="author")
+private Book book;
+
+
+TO avoid the infinite loop in  objects use 
+
+@JsonMangaedRerference in parent(Book) class
+@JsonBackReference in child(Author) class
+
+
+
+________________________________________________________________________________________________
+
+
+VIDEO 26 :  SUBMIT THE FILE ON SERVER/FOLDER 
+
+Go to resources folder. And we save the images in static folder.
+
+Go to properties files.
+
+#Multipart connfiguration  
+#enableing multopart;
+spring.servlet.multipart.enabled=true
+#max file size
+spring.servlet.multipart.max-file-size=300MB
+#threshold after which files are return to disk
+spring.servlet.multipart.file-size-threshold=1KB
+
+
+Make a new Controller to upload the file , FileUploadController  @RestController.
+
+make a handler method of PostMapping
+
+To chech this method go to POSTMAN run the 
+POST    localhost:8080/upload-file
+
+TO send the upload file in postman:
+Goto -> POST -> Body -> form-data -> enter key-name tick and upload image section
+
+Now to receive this image in handler : 
+Need to Collect this in @RequestParam("filename") , and use Multipart varible to collect this "filename"
+
+
+No can access various method of it 
+
+
+        System.out.println(file.getOriginalFilename());
+        System.out.println(file.getSize());
+        System.out.println(file.getContentType());
+        System.out.println(file.getName());
+        
+// these all will be printed on output.
+
+
+To upload the file , we need the Helper class to design the upload code. in HElper code.
+
+
+read the dat and write it to Static folder using the the file-handling.
+
+//read the file using inputStream 
+            InputStream is= multipartFile.getInputStream();
+            byte data[]= new byte[is.available()];
+            is.read(data);
+ 
+           //now write the data , on desired path using filePUtputStream
+            //  file.seperator= \\
+            FileOutputStream fos= new FileOutputStream(UPLOAD_DIR+File.separator+multipartFile.getOriginalFilename());
+            
+            fos.write(data);
+            
+            fos.flush();
+            fos.close();
+            f=true;
+            
+             USe ShortCut of file.nio
+
+    OR USE THE NIo package .
+            Files.copy(multipartFile.getInputStream(), Paths.get(UPLOAD_DIR+File.separator+multipartFile.getOriginalFilename()) , StandardCopyOption.REPLACE_EXISTING);
+            
+
+
+
+Now come to fileController and make object of File helper :
+ and save the file usng upload file. 
+
+
+File will be saved in resources/static/image folder  
+
+But during the deployed the files are saved in target folder.
+
+So we saved the files directly in target static image folder/
+
+
+__________________________________________________________________________________________________________
+
+VIDEO 27:     
+
+   UPLOADING image to DYNAMIC PATH(indep of computer) &  directly target folder.
+
+Adding the dynamic path using ClassPathResource 
+
+public final String UPLOAD_DIR= new ClassPathResource("static/image/").getFile().getAbsolutePath();   // to remove the error from it, give the constructor and thorows IOException form it.
+    public FileUploaderHelper() throws IOException {
+        
+    }
+
+Also in return give the link of image.
+
+return ResponseEntity.ok(ServletUriComponentsBuilder.fromCurrentContextPath().path("/image").path(file.getOriginalFilename()).toUriString());
+
+
+
+Now in post man fire : 
+POST  http://localhost:8080/upload-file
+
+In Body -> form-data -> select the file name and type as file , then choose the jpg. 
+
+
+ERROR WAS COMMING THAT FILE IS SAVING BUT NOT SHOWING ON BROWSER.
+
+
+
+
+__________________________________
+
+
+THE END of API handling / request handling through postman
+
+ _____________________________________-
+
+
+
+
+
+
+
+
+
+
+
+//***********************************************************************
+
+MAJOR CONCEPTS OF SPRING BOOT
+
+//***********************************************************************
+
+
+
+From 28 video
+Till 36 video
+
+
+
+
+THYMELEAF : install emmet plugin
+
+
+Thymeleaf is powerful Java template  engine used with html.
+-capable of processing the html,xml,js,
+-Code is  highly maitainable, rederering takes on server side(evaluation of dynamic content on server side).
+-used to generate the html view with dynamic content;
+- in comparison to THymeleaf, the jsp is not an engine , the code return in jsp file is converted to servlet then servlet is serving the web content,( here full life cycle of servlet will be followed.)
+-but the thymeleaf parses the html file then produces the web content.
+
+
+_____________________________
+
+SETUP the 
+
+STS/Eclipse with THymeleaf plugin and emmet(html :tab make code auto complete.)
+
+
+
+//  Working on the contact manager.
+
+Need to install the thymleaf (th tag used in html pages.) and emmet plugin (automatic code complete using tab)
+From ecplise-> install new software . Refer video 29 and write the links from video and install them.
+
+after install of emment , and emmet tab can be seen on navbar
+
+use of theaflet
+fragment
+replace
+
+
+
+__________________________________________________
+
+
+Create new project :
+
+
+TO RUN : GO to main application.java file and select run as java application , then search it on the broweser as localhost:8080/_____
+
+
+After downloading the emmet plugin and thymeleaf plugin.
+
+Include the thymeleaf dependency , spring-web , developer tools:
+
+Spring boot automatically configure the class path of dependencies added in pom.xml
+
+Make the html pages in templates folder of resources etc.
+
+create a html page 
+To get the html template press :    html:5 + tab
+ 
+
+:
+
+Now to send the dynamic content from handler method use the @Model and add the attributes
+
+Using the thymeleaf to extract the data send by model(which was done by jstl in mvc).
+
+Include the namespace xmlns:th="http:www.thymeleaf.org"
+
+
+Various syntax of Thymeleaf
+
+1. <h1 th:text="${name}" ></h1>
+
+2. <div th:with="a=5, b=40, n=${name}">            
+. we can create our own varibles:
+<div th:with= a=5,b=67,n=${name}>
+  
+//To access the value along with printing.
+  <h1 th:text:" 'Value of b is ' + ${b} "></h1>
+
+3. Printing inside the thymeleaf tag
+  <h1 th:text="  'Value of n :' + ${n} "></h1>
+
+4. Using span tag , to target at line element.
+   <h2 >Value of a is : <span th:text="${a}"> </span></h2>
+
+5. Concatation of Strings :
+<h3  th:text=" 'Sum of two num '+ 'a= '+ ${a} + ' b= '+ ${b} + ' is ' + ${a+b}  "> </h3>
+
+
+6. Iterating the loop in thymeleaf
+Make a new handler method for this .
+  
+  - direclty print list: <h1 th:text="${names}">
+
+7. th:each     
+ ol is ordered list (used numbers), 
+ ul unordered list (bullet points)
+ <ol>
+ <li th:each ="n : ${names}">
+ <span th:text ="${n}"></span>
+ </li>
+ </ol>
+
+status variable has following properties 
+   -index
+   -count,size,first,last,even,odd
+
+8. we can also use the th:style tag inside the <span> tag
+
+
+    <h1>Working with the iterating thymeleaf loop </h1> 
+<!--    <h1 th:text="${names}"></h1>   To print it as a list -->    
+
+
+ <ul>
+ <li th:each ="n,status : ${names}">
+ <span th:style="${status.odd} ? 'color:red;font-weight:bold' : 'font-weight:bold;color:green' "  th:text ="${n} +' at index '+ ${status.index}   "></span>
+ </li>
+ </ul>
+
+
+
+9.Conditional Statement in Thymeleaf
+  Elvis operator(ternary opertor)
+  If-Unless
+  Switch-Case
+
+
+
+    a). ternary operator
+
+<h1 th:style="${isActive} ? 'color:red' :'color:blue' " th:text="${isActive} ? 'ACTIVE' : 'NOT ACTIVE' "></h1>
+
+
+     b). if - unless
+
+     <h1>Inside the If unless operator</h1>
+
+<h1 th:if="${gender}=='M' "> Male </h1> 
+<h1 th:unless="${gender}=='M' " >FeMale</h1>  <!--  Unless means not of if cond  --> 
+
+
+     
+
+
+c) Switch case 
+
+//handler
+    
+    @RequestMapping("/condition")
+    public String conditionHandler(Model m)
+    {
+  boolean isActive = false;
+  m.addAttribute("isActive",isActive);
+  
+  m.addAttribute("gender","F");
+  
+  List<Integer> mylist = List.of(9632,44,15);
+  
+  m.addAttribute("mylist",mylist);
+        System.out.println("Inside the condtion handler of Thymeleaf");
+        return "condition";
+    }
+    
+
+// use of switch     
+<h1></h1>
+<div th:switch="${#lists.size(mylist)}">
+<h1 th:case="'0'">List has 0 ele</h1>
+<h1 th:case="'1'">List has 1 ele</h1>
+<h1 th:case="'2'">List has 2 ele</h1>
+<h1 th:case="'3'">List has 3 ele</h1>
+<h1 th:case="'4'">List has 4 ele</h1>
+<h1 th:case="*">List has more than 4 ele</h1>
+
+
+
+__________________________________________________________________________________________________
+
+
+
+****************   VERY IMPORTANT  *********
+
+VIDEO 32: 
+
+Including the fragments(collections of thymeleaf tags) by 3 methods .
+
+
+  a) th:replace  : it subsitute(replace) the host tag with fragment tag.
+
+  b)  th:insert  : it insert the  full-fragment along with tags  inside the host tag as the body .
+
+  c)  th:include  : it also insert the , but only the main content of fragment tags (not the fragment-tags) inside the host tag.
+
+
+Refer Screen Shot
+Fragment tag : the piece of code which we want to include.
+Host tag : where we include the fragmet;
+
+
+TO use this concept , use the footer tags and declare the th:fragment ---
+and th:replace--- options
+
+
+
+<footer th:fragment="footer1">
+    
+    <div class="container">
+    
+    <p>_________________________________________</p>
+    
+    <h1>About Learn code with durgesh -- the footer</h1>
+    <h2>Error: There is no difference in including / excluding the namespace of thymeleaf.org</h2>  
+    
+    
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dignissimos quo animi pariatur repellat nihil non numquam placeat magni beatae id rerum neque accusamus perferendis laudantium facere esse laborum possimus.</p>  
+    </div>
+    
+    <p>_________________________________________</p>
+    
+
+// can use various options of replace/include/insert here in service.html file
+
+    <!-- Going to include the Footer  -->
+    
+    <footer th:replace="footer::footer1">
+    </footer>
+    
+    
+
+Yor can verify the replace, insert,  give id to footer tags and see the work using view page source
+
+
+______________________________________________________________________________________________________
+
+VIDEO 33:  Including dynamic values in template
+
+
+we can take the value in the framment name as attribute. 
+
+//define the tittle , and get them as arguement from point where u include this footer.
+
+<footer id="fragment" th:fragment="footer1(title,subtitle)">       
+    <h1 th:text="${title}"></h1>
+    <h1 th:text="${subtitle}"></h1> 
+    
+
+
+// To pass the dymamic title just pass them using model attribute and in services put in replace fragment  tag, so they will be show in  footer 
+
+    <footer id="host" th:replace="footer::footer1(${title},${subtitle})">
+    </footer>
+
+
+    <footer id="fragment" th:fragment="footer1(title,subtitle)">
+    
+    <div class="container">
+    
+    <p>_________________________________________</p>
+    
+    <h2 th:text="${title}"></h2>
+    <h2 th:text="${subtitle}"></h2> 
+    
+    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Video  : 34 
+
+Included in real time projects.
+
+EXTENDING the base thymeleaf template
+
+The idea is to design the basis/base html page with all html,css,js 
+
+and when desing the other pages just include the base page and design the Content of current page
+
+So current page will act as fragment .
+So in base page we use the , include the fragment 
+
+- so resultant will be a full html page.
+_________________________
+
+
+
+Normally call will be made to particular html page , 
+So first of all replace the fill code of base.html using th:replace=base::layout() , then pass the content in argument , which u want to send to base page which u want to display.
+
+Now in base : receive the content in form of fragment in layout() method  , and display the received content in body using the th:replace
+
+In this way the base page containing full info will be displayed here using the current html page.
+
+
+Refer the code of : video / sts done by me
+
+_____________________________________________-------
+
+VIDEO 35  SERVER SIDE VALIDATION 
+
+
+
+_____________________________________________-------
+Video  36
+
+ Add the image refer the code in file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+___________________________________________________________________________________________-
+
+
+      VIDEO 35 :    VALIDATION AT SERVER SIDE:  SPRING MVC / BOOT 
+
+
+Advatages:
+*Usefull when user in his brower disabled the javascript , so fornted validation(client side) will not be applied , but server side will be applied.
+
+* When using the spring boot , the pages return by controller are plaved in resoucrces folder , 
+TO enable sacnning , enable the Thymelead dependency in pom.xml
+
+*These can be applied to both , springboot and spring mvc project.
+
+
+*Now make the basic bootstrap form modify , it and make handler to handle the submit form action . 
+And Check the full working nature till here.Video time 23.00
+
+
+__________________________________________________
+Now APPLYING THE
+
+Validation in server side
+
+dependecy --
+a)validation api          (its a specification )
+b)hibernate validator   (its the validation )
+, @NotBlank,@Size @Pattern,@Email etc 
+
+Then use the @ on various field of ENTIty,  to apply validations
+
+USe @Valid in controller handler method(). and result will be collected in Binding result.
+
+Also Bindidng Result should be kept @ModelAttribute to collect the results , here in Binding Results var
+
+
+Now use result to check errors : 
+Come to Form.html field it self : 
+And add field  
+ <div th:each=" e :  ${#fields.errors('userName')}" th:text="${e}"  id="validationServer03FeedBack" class="invalid-feedback">
+     </div>
+     
+    
+
+Now to show error in red put the text inside the id as validataionServer  copied from bootstap to make the field as red.
+
+This validation will  work if class name is appended with is-invalid , so use th:classappend 
+
+
+
+So when error comes class name will be applied as class form-control invalid-form 
+
+_____________________________________________________________________________________________________________
